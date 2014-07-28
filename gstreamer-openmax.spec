@@ -1,27 +1,31 @@
-# TODO: OMX_VIDEO_CodingVP8, OMX_VIDEO_CodingTheora are desired, but not available in raw OpenMAX-IL 1.1.2
+# TODO: find/wait for OMXIL implementation with OMX_VIDEO_CodingVP8, OMX_VIDEO_CodingTheora
+# (not available in raw OpenMAX-IL 1.1.2)
 %include	/usr/lib/rpm/macros.gstreamer
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
-Version:	1.0.0
+Version:	1.2.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
-# Source0-md5:	bb34b5742223267298bcffc209104a92
+# Source0-md5:	d24e8c0153c35dfefee3e26b1c2c35f8
 URL:		http://gstreamer.net/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	glib2-devel >= 1:2.32
-BuildRequires:	gstreamer-devel >= 1.0.0
+BuildRequires:	gstreamer-devel >= 1.2.2
+# gstreamer-gl
+BuildRequires:	gstreamer-plugins-bad-devel >= 1.4.0
 BuildRequires:	gtk-doc >= 1.3
+#BuildRequires:	libomxil-bellagio-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 2.1
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.32
-Requires:	gstreamer >= 1.0.0
+Requires:	gstreamer >= 1.2.2
 Requires:	libomxil-bellagio
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -69,6 +73,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README
+%doc AUTHORS ChangeLog NEWS README RELEASE
 %attr(755,root,root) %{_libdir}/gstreamer-1.0/libgstomx.so
 %config(noreplace) %verify(not md5 mtime size) /etc/xdg/gstomx.conf
