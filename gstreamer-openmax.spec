@@ -4,28 +4,29 @@
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
-Version:	1.2.0
+Version:	1.12.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
-# Source0-md5:	d24e8c0153c35dfefee3e26b1c2c35f8
+# Source0-md5:	eaf9505c7acb9b96215cb0ff775d278d
 URL:		http://gstreamer.net/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
-BuildRequires:	glib2-devel >= 1:2.32
-BuildRequires:	gstreamer-devel >= 1.2.2
-# gstreamer-gl
-BuildRequires:	gstreamer-plugins-bad-devel >= 1.4.0
+BuildRequires:	glib2-devel >= 1:2.40.0
+BuildRequires:	gstreamer-devel >= 1.12.0
+# gstreamer-gl (only for OpenMAX IL RPI target and noinst example)
+#BuildRequires:	gstreamer-plugins-bad-devel >= 1.12.0
 BuildRequires:	gtk-doc >= 1.3
+# currently internal headers used (last bellagio release misses some defines)
 #BuildRequires:	libomxil-bellagio-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 2.1
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
-Requires:	glib2 >= 1:2.32
-Requires:	gstreamer >= 1.2.2
+Requires:	glib2 >= 1:2.40.0
+Requires:	gstreamer >= 1.12.0
 Requires:	libomxil-bellagio
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
