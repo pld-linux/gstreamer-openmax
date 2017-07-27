@@ -4,13 +4,13 @@
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
-Version:	1.12.0
+Version:	1.12.2
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
-# Source0-md5:	eaf9505c7acb9b96215cb0ff775d278d
-URL:		http://gstreamer.net/
+Source0:	https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
+# Source0-md5:	4a1404a20b72e4ab6e826500218ec308
+URL:		https://gstreamer.freedesktop.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	glib2-devel >= 1:2.40.0
