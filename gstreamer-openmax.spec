@@ -1,32 +1,37 @@
-# TODO: find/wait for OMXIL implementation with OMX_VIDEO_CodingVP8, OMX_VIDEO_CodingTheora
-# (not available in raw OpenMAX-IL 1.1.2)
+# TODO:
+# - find/wait for OMXIL implementation with OMX_VIDEO_CodingVP8 (requires OpenMAX-IL 1.2 or extension?)
+#   OMX_VIDEO_CodingTheora (not available in raw OpenMAX-IL 1.1.2 or 1.2)
+# - tizonia as an alternative for bellagio?
+%define		gst_req_ver	1.14.4
 %include	/usr/lib/rpm/macros.gstreamer
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
-Version:	1.12.4
-Release:	2
+Version:	1.14.4
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
-# Source0-md5:	eb8d5ae3b69cfeed9dc77c592106247e
+# Source0-md5:	81e67ea03be607b7c548ce911598d754
 URL:		https://gstreamer.freedesktop.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	glib2-devel >= 1:2.40.0
-BuildRequires:	gstreamer-devel >= 1.12.0
-# gstreamer-gl (only for OpenMAX IL RPI target and noinst example)
-#BuildRequires:	gstreamer-plugins-bad-devel >= 1.12.0
+BuildRequires:	gstreamer-devel >= %{gst_req_ver}
+BuildRequires:	gstreamer-gl-devel >= %{gst_req_ver}
+BuildRequires:	gstreamer-plugins-base-devel
 BuildRequires:	gtk-doc >= 1.3
 # currently internal headers used (last bellagio release misses some defines)
 #BuildRequires:	libomxil-bellagio-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 2.1
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+# EGL-devel, OpenGL-GLESv2-devel, xorg-lib-libX11-devel  for examples only
 Requires:	glib2 >= 1:2.40.0
-Requires:	gstreamer >= 1.12.0
+Requires:	gstreamer >= %{gst_req_ver}
+Requires:	gstreamer-gl >= %{gst_req_ver}
 Requires:	libomxil-bellagio
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -53,7 +58,7 @@ funkcji grafiki komputerowej, obrazu i dźwięku komp.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-# NOTE: force internal OMX IL headers for now, bellagio doesn't provide OMX_VERSION_*
+# NOTE: force internal OMX IL headers for now, bellagio doesn't provide OMX_VERSION_* (OMX IL 1.2 required?)
 %configure \
 	ac_cv_header_OMX_Core_h=no \
 	--disable-silent-rules \
