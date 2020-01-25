@@ -3,7 +3,6 @@
 #   OMX_VIDEO_CodingTheora (not available in raw OpenMAX-IL 1.1.2 or 1.2)
 # - tizonia as an alternative for bellagio?
 %define		gst_ver		1.16.0
-%include	/usr/lib/rpm/macros.gstreamer
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
