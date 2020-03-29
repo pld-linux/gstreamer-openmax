@@ -2,16 +2,16 @@
 # - find/wait for OMXIL implementation with OMX_VIDEO_CodingVP8 (requires OpenMAX-IL 1.2 or extension?)
 #   OMX_VIDEO_CodingTheora (not available in raw OpenMAX-IL 1.1.2 or 1.2)
 # - tizonia as an alternative for bellagio?
-%define		gst_ver		1.16.0
+%define		gst_ver		1.16.2
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
-Version:	1.16.0
+Version:	1.16.2
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
-# Source0-md5:	c6f8554513980682099a2a9832250b01
+# Source0-md5:	6362786d2b6cce34de08c86b7847f782
 URL:		https://gstreamer.freedesktop.org/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
