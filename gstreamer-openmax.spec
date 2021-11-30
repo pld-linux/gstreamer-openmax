@@ -1,34 +1,38 @@
 # TODO:
 # - find/wait for OMXIL implementation with OMX_VIDEO_CodingVP8 (requires OpenMAX-IL 1.2 or extension?)
 #   OMX_VIDEO_CodingTheora (not available in raw OpenMAX-IL 1.1.2 or 1.2)
-# - tizonia as an alternative for bellagio?
-%define		gst_ver		1.16.3
+# - tizonia >= 0.19.0 as an alternative for bellagio?
+#
+# Conditional build:
+%bcond_without	apidocs		# API documentation
+
+%define		gst_ver		1.19.3
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
-Version:	1.16.3
-Release:	2
+Version:	1.19.3
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
-# Source0-md5:	d4d89dd44362c1d262186c60437cdbee
+# Source0-md5:	58d5ff3fc0e989920f9794ef3b5d3be1
 URL:		https://gstreamer.freedesktop.org/
-BuildRequires:	autoconf >= 2.62
-BuildRequires:	automake >= 1:1.11
-BuildRequires:	glib2-devel >= 1:2.40.0
+BuildRequires:	glib2-devel >= 1:2.44.0
 BuildRequires:	gstreamer-devel >= %{gst_ver}
 BuildRequires:	gstreamer-gl-devel >= %{gst_ver}
 BuildRequires:	gstreamer-plugins-base-devel
-BuildRequires:	gtk-doc >= 1.3
+%{?with_apidocs:BuildRequires:	hotdoc}
 # currently internal headers used (last bellagio release misses some defines)
 #BuildRequires:	libomxil-bellagio-devel
-BuildRequires:	libtool >= 2:2.2.6
+BuildRequires:	meson >= 0.47
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 2.1
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 # EGL-devel, OpenGL-GLESv2-devel, xorg-lib-libX11-devel  for examples only
-Requires:	glib2 >= 1:2.40.0
+Requires:	glib2 >= 1:2.44.0
 Requires:	gstreamer >= %{gst_ver}
 Requires:	gstreamer-gl-libs >= %{gst_ver}
 Requires:	libomxil-bellagio
@@ -48,30 +52,43 @@ komponentami OpenMAX IL.
 OpenMAX IL to standard przemysłowy zapewniający warstwę abstrakcji dla
 funkcji grafiki komputerowej, obrazu i dźwięku komp.
 
+%package apidocs
+Summary:	GStreamer OpenMAX API documentation
+Summary(pl.UTF-8):	Dokumentacja API wtyczki GStreamera OpenMAX
+Group:		Documentation
+BuildArch:	noarch
+
+%description apidocs
+GStreamer OpenMAX API documentation.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API wtyczki GStreamera OpenMAX.
+
 %prep
 %setup -q -n gst-omx-%{version}
 
 %build
-%{__libtoolize}
-%{__aclocal} -I m4 -I common/m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-# NOTE: force internal OMX IL headers for now, bellagio doesn't provide OMX_VERSION_* (OMX IL 1.2 required?)
-%configure \
-	ac_cv_header_OMX_Core_h=no \
-	--disable-silent-rules \
-	--disable-static \
-	--with-omx-target=bellagio
-%{__make}
+%meson build \
+	--default-library=shared \
+	%{!?with_apidocs:-Ddoc=false} \
+	-Dtarget=bellagio
+
+%ninja_build -C build
+
+%if %{with apidocs}
+cd build/docs
+LC_ALL=C.UTF-8 hotdoc run --conf-file omx-doc.json
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+%ninja_install -C build
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/gstreamer-1.0/*.la
+%if %{with apidocs}
+install -d $RPM_BUILD_ROOT%{_docdir}/gstreamer-%{gstmver}
+cp -pr build/docs/omx-doc $RPM_BUILD_ROOT%{_docdir}/gstreamer-%{gstmver}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -81,3 +98,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README RELEASE
 %attr(755,root,root) %{_libdir}/gstreamer-1.0/libgstomx.so
 %config(noreplace) %verify(not md5 mtime size) /etc/xdg/gstomx.conf
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%{_docdir}/gstreamer-%{gstmver}
+%endif
