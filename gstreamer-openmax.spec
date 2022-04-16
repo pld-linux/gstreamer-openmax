@@ -6,25 +6,25 @@
 # Conditional build:
 %bcond_without	apidocs		# API documentation
 
-%define		gst_ver		1.19.3
+%define		gst_ver		1.20.0
 Summary:	GStreamer plug-in that allows communication with OpenMAX IL components
 Summary(pl.UTF-8):	Wtyczka GStreamera pozwalająca na komunikację z komponentami OpenMAX IL
 Name:		gstreamer-openmax
-Version:	1.19.3
+Version:	1.20.1
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-%{version}.tar.xz
-# Source0-md5:	58d5ff3fc0e989920f9794ef3b5d3be1
+# Source0-md5:	de1a0d1afa37a69888d4ea9447efdc36
 URL:		https://gstreamer.freedesktop.org/
-BuildRequires:	glib2-devel >= 1:2.44.0
+BuildRequires:	glib2-devel >= 1:2.56.0
 BuildRequires:	gstreamer-devel >= %{gst_ver}
 BuildRequires:	gstreamer-gl-devel >= %{gst_ver}
 BuildRequires:	gstreamer-plugins-base-devel
 %{?with_apidocs:BuildRequires:	hotdoc}
 # currently internal headers used (last bellagio release misses some defines)
 #BuildRequires:	libomxil-bellagio-devel
-BuildRequires:	meson >= 0.47
+BuildRequires:	meson >= 0.59
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 2.1
@@ -32,7 +32,7 @@ BuildRequires:	rpm-build >= 4.6
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 # EGL-devel, OpenGL-GLESv2-devel, xorg-lib-libX11-devel  for examples only
-Requires:	glib2 >= 1:2.44.0
+Requires:	glib2 >= 1:2.56.0
 Requires:	gstreamer >= %{gst_ver}
 Requires:	gstreamer-gl-libs >= %{gst_ver}
 Requires:	libomxil-bellagio
